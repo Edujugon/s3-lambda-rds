@@ -4,10 +4,10 @@ const s3 = new AWS.S3();
 
 const BUCKET_NAME = process.env.BUCKET_NAME;
 
-const getObject = name => {
+const getObject = key => {
   s3.getObject({
     Bucket: BUCKET_NAME,
-    Key: name,
+    Key: key,
   }).promise();
 }
 
