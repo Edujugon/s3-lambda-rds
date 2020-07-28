@@ -3,8 +3,10 @@ const { asyncForEach } = require('../../utils/async');
 
 const s3ToRDS = async event => {
   await asyncForEach(event.Records, async record => {
-    const filename = record.s3.object.key;
-    const content = await s3.getObject(filename);
+    // Object key may have spaces or unicode non-ASCII characters.
+    const objectKey = decodeURIComponent(record.s3.object.key.replace(/\+/g, " "));
+
+    const content = await s3.getObject(objectKey);
 
     // TODO
     // Prepare SQL statement
